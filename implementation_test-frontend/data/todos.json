@@ -2,7 +2,17 @@
   "tasks": [
     {
       "id": "4c4f5c62-fe1a-48d6-b2fa-9c1559e1ae49",
-      "text": "task 2",
+      "text": "Membeli makanan peliharan",
+      "status": 1
+    },
+    {
+      "id": "d06bb858-919b-42c8-9cce-35977398d0ca",
+      "text": "Meeting dengan client",
+      "status": 0
+    },
+    {
+      "id": "7d388585-da12-4a91-8f17-7792643aea81",
+      "text": "Bayar tagihan listrik",
       "status": 1
     }
   ]
