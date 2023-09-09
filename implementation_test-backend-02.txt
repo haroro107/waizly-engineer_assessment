@@ -1,0 +1,53 @@
+1.  SELECT * 
+FROM `employees`
+
+2. SELECT COUNT(*) 
+FROM `employees` 
+WHERE `job_title` = 'Manager';
+
+3. SELECT name, salary
+FROM employees
+WHERE department IN ('Sales', 'Marketing');
+
+4. SELECT AVG(salary) AS rata_rata_gaji
+FROM employees
+WHERE joined_date >= DATE_SUB(CURDATE(), INTERVAL 5 YEAR);
+
+5. SELECT e.employee_id, e.name, SUM(s.sales) AS total_penjualan
+FROM employees AS e
+INNER JOIN sales AS s ON e.employee_id = s.employee_id
+GROUP BY e.employee_id, e.name
+ORDER BY total_penjualan DESC
+LIMIT 5;
+
+6. SELECT name, total_penjualan,
+       DENSE_RANK() OVER (ORDER BY total_penjualan DESC) AS peringkat
+FROM (
+    SELECT e.name, SUM(s.sales) AS total_penjualan
+    FROM employees AS e
+    LEFT JOIN sales AS s ON e.employee_id = s.employee_id
+    GROUP BY e.name
+) AS karyawan_total_penjualan;
+
+7. DELIMITER //
+CREATE PROCEDURE GetEmployeeSalaryByDepartment(
+    IN DepartmentName VARCHAR(255)
+)
+BEGIN
+    CREATE TEMPORARY TABLE TempEmployeeSalary
+    (
+        EmployeeName VARCHAR(255),
+        TotalSalary DECIMAL(10, 2)
+    );
+    INSERT INTO TempEmployeeSalary (EmployeeName, TotalSalary)
+    SELECT e.name, SUM(e.salary) AS TotalSalary
+    FROM employees AS e
+    WHERE e.department = DepartmentName
+    GROUP BY e.name;
+    SELECT * FROM TempEmployeeSalary;
+    DROP TEMPORARY TABLE IF EXISTS TempEmployeeSalary;
+END //
+DELIMITER ;
+
+
+
